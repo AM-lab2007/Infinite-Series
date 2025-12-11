@@ -1,193 +1,243 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* General Body Styles */
 body {
-  font-family: Arial, sans-serif;
-  background: #fffdfa;
-  color: #3b2f2f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
+/* Header */
 .site-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 18px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+  padding: 12px 24px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
 }
 
-.logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 6px;
+.brand .logo {
+  height: 40px;
+}
+
+.brand h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.top-nav {
+  display: flex;
+  gap: 20px;
 }
 
 .top-nav a {
-  margin-left: 12px;
   text-decoration: none;
-  color: #3b2f2f;
-  padding: 6px 10px;
-  border-radius: 8px;
+  color: #555;
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
 }
 
+.top-nav a:hover,
 .top-nav a.active {
-  background: #8b6b46;
-  color: white;
+  color: #8b6b46;
+  border-bottom-color: #8b6b46;
 }
 
+.cart-link #cart-count {
+  background-color: #8b6b46;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  vertical-align: top;
+  margin-left: 4px;
+}
+
+/* Main Content Area */
 .main {
-  max-width: 1100px;
-  margin: 18px auto;
-  padding: 0 16px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 24px;
 }
 
+/* Controls for Search, Filter, Sort */
 .controls {
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 14px;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .controls input,
 .controls select {
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
-  min-width: 160px;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.controls input[type="search"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  border-color: #8b6b46;
+  box-shadow: 0 0 0 3px rgba(139, 107, 70, 0.1);
+}
+
+/* Books Grid */
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
 }
 
+/* Book Card Styling */
 .book-card {
-  background: #fff;
-  border: 1px solid #eee;
+  background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.book-card a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .book-card img {
   width: 100%;
-  height: 260px;
+  height: 280px;
   object-fit: cover;
   display: block;
+  transition: transform 0.3s ease;
 }
 
-.body {
-  padding: 10px;
+.book-card .body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
-.body h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
+.book-card:hover img {
+  transform: scale(1.05);
 }
 
-.author {
-  color: #666;
-  font-size: 13px;
-  margin-bottom: 6px;
+.book-card h3 {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
 }
 
-.price {
-  color: #8b6b46;
+.book-card .author {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 12px;
+}
+
+.book-card .price {
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #8b6b46;
+  margin-top: auto;
+  margin-bottom: 12px;
 }
 
-.actions {
+.book-card .actions {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
+  /* Make buttons initially invisible and slightly moved down */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.add {
-  flex: 1;
-  background: #8b6b46;
-  color: white;
+.book-card .actions button {
   border: none;
-  padding: 8px;
-  border-radius: 8px;
+  border-radius: 6px;
+  padding: 8px 12px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
-.wish {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
+/* On card hover, make the action buttons appear */
+.book-card:hover .actions {
+  opacity: 1;
+  transform: translateY(0);
 }
 
+.book-card .actions .add {
+  flex-grow: 1;
+  background-color: #8b6b46;
+  color: #fff;
+}
+
+.book-card .actions button:active {
+  transform: scale(0.97);
+}
+
+.book-card .actions .add:hover {
+  background-color: #7a5c3a;
+}
+
+.book-card .actions .wish {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.book-card .actions .wish .fa-heart {
+  transition: color 0.2s;
+}
+
+.book-card .actions .wish:hover {
+  background-color: #e0e0e0;
+}
+.book-card .actions .wish:hover .fa-heart {
+  color: #d9534f;
+}
+
+/* Load More Button */
 .load-more-area {
   text-align: center;
-  margin-top: 16px;
+  margin-top: 32px;
 }
 
 .load-more {
-  background: #8b6b46;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
+  background-color: #fff;
+  color: #8b6b46;
+  border: 1px solid #8b6b46;
+  padding: 12px 24px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-#notification-area {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 1000;
-}
-
-.notification {
-  background: #8b6b46;
-  color: white;
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.notification.error {
-  background: #d9534f;
-}
-
-@media (max-width: 1000px) {
-  .books-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 700px) {
-  .controls {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .books-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 420px) {
-  .books-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .controls input,
-  .controls select {
-    width: 100%;
-    max-width: 320px;
-  }
+.load-more:hover {
+  background-color: #8b6b46;
+  color: #fff;
 }
