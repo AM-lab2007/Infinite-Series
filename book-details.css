@@ -1,0 +1,80 @@
+.main-content {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.book-details-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.book-cover img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.book-info h1 {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-size: 2.5rem;
+}
+
+.book-info .author {
+  font-size: 1.2rem;
+  color: #777;
+  margin-bottom: 16px;
+}
+
+.book-info .price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #8b6b46;
+  margin-bottom: 24px;
+}
+
+.book-info .description {
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.book-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.book-actions .btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.book-actions .add-to-cart {
+  background-color: #8b6b46;
+  color: #fff;
+}
+
+.book-actions .add-to-cart:hover {
+  background-color: #7a5c3a;
+}
+
+.book-actions .add-to-wishlist {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.book-actions .add-to-wishlist:hover {
+  background-color: #e0e0e0;
+}
+
+.book-not-found {
+  text-align: center;
+  padding: 40px;
+}

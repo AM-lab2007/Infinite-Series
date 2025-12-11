@@ -1,183 +1,80 @@
-var BOOKS = [
-  { id: "b1", title: "The Lost Library", author: "A. Reader", price: 12.99, genre: "fiction", img: "images/book1.jpg", description: "A story about a hidden library." },
-  { id: "b2", title: "Starlight Journey", author: "M. Voyager", price: 15.50, genre: "fantasy", img: "images/book2.jpg", description: "A fantasy adventure among stars." },
-  { id: "b3", title: "Mystery of the Clock", author: "C. Sleuth", price: 9.99, genre: "mystery", img: "images/book3.jpg", description: "A detective mystery set in an old town." },
-  { id: "b4", title: "Thoughts & Theory", author: "D. Thinker", price: 18.00, genre: "non-fiction", img: "images/book4.jpg", description: "Essays about science and life." },
-  { id: "b5", title: "Forest Tales", author: "E. Green", price: 11.25, genre: "fiction", img: "images/book5.jpg", description: "Short tales from the forest." },
-  { id: "b6", title: "Deep Magic", author: "F. Mage", price: 13.75, genre: "fantasy", img: "images/book6.jpg", description: "Magic and mystery collide." }
-]
+document.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  const bookId = params.get('id');
+  const detailsContainer = document.getElementById('book-details-container');
 
-function param( name ) {
+  if (!detailsContainer) return;
 
-  var parts = location.search.replace( "?", "" ).split( "&" )
+  // The BOOKS array is now available from data.js
+  const book = BOOKS.find(b => b.id === bookId);
 
-  for ( var i = 0; i < parts.length; i++ ) {
-    var p = parts[i].split( "=" )
-
-    if ( p[0] === name ) {
-      return decodeURIComponent( p[1] || "" )
-    }
-  }
-
-  return ""
-}
-
-var id = param( "id" )
-var el = document.getElementById( "book-details" )
-
-if ( el ) {
-
-  var found = null
-
-  for ( var i = 0; i < BOOKS.length; i++ ) {
-    if ( BOOKS[i].id === id ) {
-      found = BOOKS[i]
-      break
-    }
-  }
-
-  if ( !found ) {
-
-    el.innerHTML =
-      '<h2>Book not found</h2>' +
-      '<p><a href="books.html">Back to books</a></p>'
-
+  if (!book) {
+    renderBookNotFound(detailsContainer);
   } else {
-
-    el.innerHTML =
-      '<div style="display:flex;gap:16px;flex-wrap:wrap">' +
-        '<div style="width:260px">' +
-          '<img src="' + found.img + '" alt="" style="width:100%;border-radius:8px" />' +
-        '</div>' +
-        '<div style="flex:1">' +
-          '<h2>' + found.title + '</h2>' +
-          '<div class="small">by ' + found.author + '</div>' +
-          '<div style="color:#8b6b46;font-weight:bold;margin-top:8px">$' + found.price.toFixed(2) + '</div>' +
-          '<p style="margin-top:12px">' + found.description + '</p>' +
-          '<div style="margin-top:12px">' +
-            '<button id="add" style="background:#8b6b46;color:#fff;padding:8px 12px;border-radius:6px;border:none;cursor:pointer">Add to Cart</button> ' +
-            '<button id="wish" style="padding:8px 12px;border-radius:6px;border:1px solid #ddd;cursor:pointer">Add to Wishlist</button>' +
-          '</div>' +
-        '</div>' +
-      '</div>'
-
-    var addBtn  = document.getElementById( "add" )
-    var wishBtn = document.getElementById( "wish" )
-
-    if ( addBtn ) {
-      addBtn.addEventListener( "click", function () {
-
-        var d = localStorage.getItem( "bookHavenCart" )
-        var items = []
-
-        if ( d ) {
-          try {
-            items = JSON.parse( d )
-          } catch ( e ) {
-            items = []
-          }
-        }
-
-        var f = false
-
-        for ( var j = 0; j < items.length; j++ ) {
-          if ( items[j].id === found.id ) {
-            items[j].quantity = ( items[j].quantity || 0 ) + 1
-            f = true
-            break
-          }
-        }
-
-        if ( !f ) {
-          items.push( { id: found.id, name: found.title, price: found.price, quantity: 1 } )
-        }
-
-        localStorage.setItem( "bookHavenCart", JSON.stringify( items ) )
-
-        updateCartCount()
-        showNotification( found.title + " added to cart", "success" )
-      })
-    }
-
-    if ( wishBtn ) {
-      wishBtn.addEventListener( "click", function () {
-
-        var d = localStorage.getItem( "bookHavenWishlist" )
-        var list = []
-
-        if ( d ) {
-          try {
-            list = JSON.parse( d )
-          } catch ( e ) {
-            list = []
-          }
-        }
-
-        for ( var k = 0; k < list.length; k++ ) {
-          if ( list[k] === found.id ) {
-            showNotification( "Already in wishlist", "error" )
-            return
-          }
-        }
-
-        list.push( found.id )
-        localStorage.setItem( "bookHavenWishlist", JSON.stringify( list ) )
-        showNotification( "Added to wishlist", "success" )
-      })
-    }
+    renderBookDetails(detailsContainer, book);
+    attachActionListeners(book);
   }
+});
+
+function renderBookNotFound(container) {
+  container.innerHTML = `
+    <div class="book-not-found">
+      <h2>Book Not Found</h2>
+      <p>Sorry, we couldn't find the book you're looking for.</p>
+      <a href="books.html" class="btn">Back to Books</a>
+    </div>`;
+  container.style.gridTemplateColumns = '1fr'; // Adjust grid for the message
 }
 
-function updateCartCount() {
-
-  var d = localStorage.getItem( "bookHavenCart" )
-  var items = []
-
-  if ( d ) {
-    try {
-      items = JSON.parse( d )
-    } catch ( e ) {
-      items = []
-    }
-  }
-
-  var s = 0
-
-  for ( var i = 0; i < items.length; i++ ) {
-    s = s + ( items[i].quantity || 0 )
-  }
-
-  var els = document.querySelectorAll( "#cart-count" )
-
-  for ( var j = 0; j < els.length; j++ ) {
-    els[j].textContent = s
-  }
+function renderBookDetails(container, book) {
+  container.innerHTML = `
+    <div class="book-cover">
+      <img src="${book.img}" alt="${book.title}" />
+    </div>
+    <div class="book-info">
+      <h1>${book.title}</h1>
+      <p class="author">by ${book.author}</p>
+      <p class="price">$${book.price.toFixed(2)}</p>
+      <p class="description">${book.description}</p>
+      <div class="book-actions">
+        <button id="add-to-cart-btn" class="btn add-to-cart">Add to Cart</button>
+        <button id="add-to-wishlist-btn" class="btn add-to-wishlist">Add to Wishlist</button>
+      </div>
+    </div>`;
 }
 
-function showNotification( m, t ) {
+function attachActionListeners(book) {
+  const addBtn = document.getElementById('add-to-cart-btn');
+  const wishBtn = document.getElementById('add-to-wishlist-btn');
 
-  var area = document.getElementById( "notification-area" )
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      let cartItems = JSON.parse(localStorage.getItem("bookHavenCart") || "[]");
+      const existingItem = cartItems.find(item => item.id === book.id);
 
-  if ( !area ) {
-    return
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cartItems.push({ id: book.id, name: book.title, price: book.price, quantity: 1, img: book.img });
+      }
+
+      localStorage.setItem("bookHavenCart", JSON.stringify(cartItems));
+      updateCartCount(); // from common.js
+      showNotification(`${book.title} added to cart`, "success"); // from common.js
+    });
   }
 
-  var n = document.createElement( "div" )
-  n.className = "notification"
+  if (wishBtn) {
+    wishBtn.addEventListener('click', () => {
+      let wishlist = JSON.parse(localStorage.getItem("bookHavenWishlist") || "[]");
 
-  if ( t === "error" ) {
-    n.className = "notification error"
+      if (wishlist.includes(book.id)) {
+        showNotification("Already in wishlist", "error");
+      } else {
+        wishlist.push(book.id);
+        localStorage.setItem("bookHavenWishlist", JSON.stringify(wishlist));
+        showNotification("Added to wishlist", "success");
+      }
+    });
   }
-
-  n.textContent = m
-
-  area.appendChild( n )
-
-  setTimeout( function () {
-    if ( n.parentNode ) {
-      n.parentNode.removeChild( n )
-    }
-  }, 2500 )
 }
-
-updateCartCount()

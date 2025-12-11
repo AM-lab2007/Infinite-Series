@@ -76,7 +76,7 @@ function renderCart() {
 
     html +=
       '<div class="cart-item" data-id="' + it.id + '">' +
-        '<img class="cart-item-img" src="images/book-placeholder.jpg" />' +
+        '<img class="cart-item-img" src="' + (it.img || 'images/book-placeholder.jpg') + '" alt="' + it.name + '" />' +
         '<div class="cart-item-details">' +
           '<h4>' + it.name + '</h4>' +
           '<div class="author">by ' + ( it.author || "Unknown" ) + '</div>' +

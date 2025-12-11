@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Details - Infinite-Series</title>
   <link rel="stylesheet" href="books.css" />
+  <link rel="stylesheet" href="book-details.css" />
   <link rel="icon" href="logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
@@ -13,24 +14,29 @@
   <header class="site-header">
     <div class="brand">
       <a href="index.html">
-        <img src="images/book-favicon.png" alt="logo" class="logo" />
+        <img src="logo.png" alt="logo" class="logo" />
       </a>
       <h1>Infinite-Series</h1>
     </div>
 
     <nav class="top-nav">
+      <a href="index.html">Home</a>
       <a href="books.html">Books</a>
       <a href="cart.html" class="cart-link">Cart <span id="cart-count">0</span></a>
     </nav>
   </header>
 
-  <main style="max-width:900px; margin:20px auto; padding: 0 12px;">
-    <div id="book-details">
+  <main class="main-content">
+    <div id="book-details-container" class="book-details-container">
+      <!-- Content will be dynamically inserted by book-details.js -->
       <p>Loading book details...</p>
     </div>
   </main>
 
   <div id="notification-area"></div>
+
+  <script src="data.js"></script>
+  <script src="common.js"></script>
 
   <script src="book-details.js"></script>
 

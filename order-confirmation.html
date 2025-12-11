@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Order Confirmation - Infinite-Series</title>
-  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="order-confirmation.css" />
   <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
@@ -16,14 +17,26 @@
       </a>
       <h1>Infinite-Series</h1>
     </div>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="books.html">Books</a>
+      <a href="cart.html" class="cart-link">Cart <span id="cart-count">0</span></a>
+    </nav>
   </header>
 
-  <main style="padding:40px 16px; text-align:center;">
-    <h1>Thank you for your order!</h1>
-    <p id="order-msg">Generating your order number...</p>
-    <p><a href="index.html" class="btn">Continue shopping</a></p>
+  <main class="confirmation-container">
+    <div class="confirmation-box">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h1>Thank You For Your Order!</h1>
+      <p>Your order has been placed successfully. A confirmation email has been sent to you.</p>
+      <p>Your order number is: <strong id="order-number"></strong></p>
+      <a href="books.html" class="btn">Continue Shopping</a>
+    </div>
   </main>
 
+  <script src="common.js"></script>
   <script src="order-confirmation.js"></script>
 
 </body>
